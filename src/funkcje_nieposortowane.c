@@ -45,8 +45,8 @@ void clear_tabf(mpfr_t tab[], size_t tabsize) {
 	}
 }
 
-int distribute_(double X, double tab_in[], double tab_out[], size_t tabsize) {
-	int wynik = 0;
+void distribute_(double X, double tab_in[], double tab_out[], size_t tabsize) {
+	//int wynik = 0;
 	mpfr_t Xf;
 	mpfr_init2(Xf, PRECISION);
 	mpfr_set_d(Xf, X, ROUNDING);
@@ -58,7 +58,7 @@ int distribute_(double X, double tab_in[], double tab_out[], size_t tabsize) {
 	mpfr_t sumaf;
 	mpfr_init2(sumaf, PRECISION);
 	mpfr_set_d(sumaf, 0.0, ROUNDING);
-	debug_print(&sumaf, "1sumaf");
+	//debug_print(&sumaf, "1sumaf");
 
 	mpfr_t tabf_tmp[tabsize];
 	mpfr_t tabf_in[tabsize];
@@ -68,41 +68,42 @@ int distribute_(double X, double tab_in[], double tab_out[], size_t tabsize) {
 
 	copy_tab_(tab_in, tabf_in, tabsize);
 
-	printf("1\n");for(size_t i=0;i<tabsize;++i) { debug_print2(&tabf_tmp[i]); }printf("1\n");
+	//printf("1\n");for(size_t i=0;i<tabsize;++i) { debug_print2(&tabf_tmp[i]); }printf("1\n");
 
 	for(size_t i=0;i<tabsize;++i) { mpfr_div(tabf_tmp[i], Xf, tabsizef, ROUNDING); }
 
-	printf("2\n");for(size_t i=0;i<tabsize;++i) { debug_print2(&tabf_tmp[i]); }printf("2\n");
+	//printf("2\n");for(size_t i=0;i<tabsize;++i) { debug_print2(&tabf_tmp[i]); }printf("2\n");
 
 	for(size_t i=0;i<tabsize;++i) { mpfr_mul(tabf_tmp[i], tabf_tmp[i], tabf_in[i], ROUNDING); }
 
-	printf("3\n");for(size_t i=0;i<tabsize;++i) { debug_print2(&tabf_tmp[i]); }printf("3\n");
+	//printf("3\n");for(size_t i=0;i<tabsize;++i) { debug_print2(&tabf_tmp[i]); }printf("3\n");
 
 	sum_tabf(&sumaf, tabf_tmp, tabsize);
 	//debug
-	debug_print(&sumaf, "sumaf");
+	//debug_print(&sumaf, "sumaf");
 	//koniec debug
 	if(mpfr_cmp_d(sumaf, 0.0)) {
 		mpfr_t ratiof;
 		mpfr_init2(ratiof, PRECISION);
 		mpfr_set_d(ratiof, 0.0, ROUNDING);
-		debug_print2(&ratiof);
+		//debug_print2(&ratiof);
 		mpfr_div(ratiof, Xf, sumaf, ROUNDING);
-		debug_print2(&Xf);
-		debug_print2(&sumaf);
-		debug_print2(&ratiof);
+		//debug_print2(&Xf);
+		//debug_print2(&sumaf);
+		//debug_print2(&ratiof);
 		for(size_t i=0;i<tabsize;++i) { mpfr_mul(tabf_tmp[i], tabf_tmp[i], ratiof, ROUNDING); }
 		mpfr_clear(ratiof);
 	}
 	sum_tabf(&sumaf, tabf_tmp, tabsize);
-	debug_print2(&sumaf);
-	if(mpfr_cmp_d(sumaf, X)) { wynik = 1; }
+	//debug_print2(&sumaf);
+	//if(mpfr_cmp_d(sumaf, X)) { wynik = 1; }
 	copy_tab__(tabf_tmp, tab_out, tabsize);
 	clear_tabf(tabf_tmp, tabsize);
 	clear_tabf(tabf_in, tabsize);
 	mpfr_clear(Xf);
 	mpfr_clear(tabsizef);
-	return wynik;
+	mpfr_clear(sumaf);
+	//return wynik;
 }
 void sum_tabf(mpfr_t *sumaf, mpfr_t tabf_tmp[], size_t tabsize) {
 	mpfr_set_d(*sumaf, 0.0, ROUNDING);
@@ -111,8 +112,9 @@ void sum_tabf(mpfr_t *sumaf, mpfr_t tabf_tmp[], size_t tabsize) {
 void print_tab(double tab[], size_t tabsize) {
 	for(size_t i=0;i<tabsize;++i) {
 		printf("%10.50f", tab[i]);
-		if((i%3)==2) { printf("\n"); }
-		else { printf(" "); }
+		printf("\n");
+		//if((i%3)==2) { printf("\n"); }
+		//else { printf(" "); }
 	}
 }
 
