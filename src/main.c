@@ -5,7 +5,7 @@
 int main(int argc, char *argv[]) {
 
 	double X = 1000;
-	double tab_in[] = {0.0, 0.0};
+	double tab_in[] = {DBL_MAX, DBL_MAX, DBL_MAX};
 	size_t tabsize = sizeof(tab_in)/sizeof(double);
 	double tab_out[tabsize];
 
